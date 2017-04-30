@@ -1,4 +1,4 @@
-KVDB [![Build Status](https://travis-ci.org/genesem/nanoserv.svg?branch=master)](https://travis-ci.org/genesem/nanoserv)
+KVDB [![Build Status](https://travis-ci.org/genesem/kvdb.svg?branch=master)](https://travis-ci.org/genesem/kvdb)
 ========
 
 KeyValue Nano Database written in Go (golang).
