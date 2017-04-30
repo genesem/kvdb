@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
@@ -47,25 +48,28 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("qpath==[%s], qkey==[%s]\n", qpath, qkey) //html.EscapeString()
 }
 
-func watcher() { // watcher cleans database keys every 250 Milliseconds
-	for {
-		select {
-		case <-time.After(500 * time.Millisecond): // for debug == 500ms
-			CleanDB()
-		}
-	}
-}
-
 // entry point for server
 func main() {
 
 	work()
 
-	go watcher() // start cleaner
+	port, ok := os.LookupEnv("PORT")
+	if !ok {
+		port = "3000"
+	}
+
+	go func() { // watcher cleans database keys every 250 Milliseconds
+		for {
+			select {
+			case <-time.After(500 * time.Millisecond): // for debug == 500ms
+				CleanDB()
+			}
+		}
+	}()
 
 	http.HandleFunc("/", handler)
-	print("Server started at port :3000 ...\n")
-	if err := http.ListenAndServe(":3000", nil); err != nil {
+	print("Server started at the port :", port, "\n\n")
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
 		println("ListenAndServe: ", err)
 	}
 

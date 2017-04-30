@@ -38,7 +38,7 @@ func (it DBItem) SetTTL(sec int) { // if sec == 0 set ttl = 0 (means forver)
 
 var DataBase = make(map[string]*DBItem, 1<<16) // Allocate memory to 65536 items
 
-// Cleans some random keys
+// Cleans database from the some random expired keys
 func CleanDB() {
 
 	//print("\rClean DB..")
