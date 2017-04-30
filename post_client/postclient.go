@@ -1,9 +1,10 @@
 package main
 
 import (
+	//	cd "clientcodecs"
 	"bytes"
-	cd "clientcodecs"
 	"fmt"
+	cd "github.com/genesem/kvdb/clientcodecs"
 	"net/http"
 )
 
