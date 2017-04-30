@@ -15,18 +15,27 @@ import (
 // Operators mapped: GET SET REMOVE KEYS
 
 func handler(w http.ResponseWriter, r *http.Request) {
-
-	qpath, qkey := r.URL.Path[1:], r.URL.Query().Get("q")
+	//qpath := r.URL.Path[1:]
+	qkey := r.URL.Query().Get("q")
 
 	switch strings.ToUpper(r.Method) { // process http verbs:
 
 	case "GET":
-		v, ok := hdGet(w, r, qkey)
+		var val string
+		var ok bool
+		subk := r.URL.Query().Get("k") // subkey
+
+		if len(subk) == 0 {
+			val, ok = hdGet(w, r, qkey)
+		} else {
+			val, ok = hdGetSubk(w, r, qkey, subk)
+		}
+
 		if !ok {
 			w.WriteHeader(http.StatusNotFound) // 404 ERROR CODE
 			fmt.Fprintf(w, "key %s not found", qkey)
 		} else {
-			fmt.Fprintf(w, "%s", v)
+			fmt.Fprintf(w, "%s", val)
 		}
 
 	case "DELETE":
@@ -52,7 +61,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Printf("qpath==[%s], qkey==[%s]\n", qpath, qkey) //html.EscapeString()
+	//fmt.Printf("qpath==[%s], qkey==[%s]\n", qpath, qkey) //html.EscapeString()
 }
 
 // entry point for server
