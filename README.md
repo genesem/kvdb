@@ -9,6 +9,10 @@ KeyValue Nano Database written in Go (golang).
 * Lists of Strings
 * Dictionaries of Strings
 
+#### Features:
+
+* Each key has TTL (time to live) is seconds and autodeleted when TTL got expired.
+
 
 #### Install:
 

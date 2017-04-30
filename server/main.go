@@ -9,7 +9,6 @@ import (
 )
 
 // Operators mapped: GET SET REMOVE KEYS
-
 func handler(w http.ResponseWriter, r *http.Request) {
 
 	qpath, qkey := r.URL.Path[1:], r.URL.Query().Get("q")
@@ -48,7 +47,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("qpath==[%s], qkey==[%s]\n", qpath, qkey) //html.EscapeString()
 }
 
-// entry point for server
+// entry point for the server
 func main() {
 
 	work()
