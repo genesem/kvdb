@@ -25,7 +25,7 @@ KeyValue Nano Database written in Go (golang).
 
 #### Usage:
 
-By default server listens on :3000 tcp port.
+By default server listens on :3000 tcp port, to use custom port please set PORT environment variable (ex: `export PORT=9000`).
 
 
 
