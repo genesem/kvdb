@@ -3,7 +3,6 @@ KVDB [![Build Status](https://travis-ci.org/genesem/kvdb.svg?branch=master)](htt
 
 KeyValue Nano Database written in Go (golang).
 
-
 #### Storage types:
 
 * Strings
