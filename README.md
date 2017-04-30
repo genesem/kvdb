@@ -13,7 +13,9 @@ KeyValue Nano Database written in Go (golang).
 
   `git clone https://github.com/genesem/kvdb`
 
-  `cd server && go build -o ../server`
+  `cd kvdb/server && go build -o ../server`
+  
+  `runnable server file is: 'server'`
 
 #### Usage:
 
