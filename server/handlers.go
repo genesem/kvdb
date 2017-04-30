@@ -9,11 +9,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
-
-//i, ok := m["route"]
-//In this statement, the first value (i) is assigned the value stored under the key "route".
-//If that key doesn't exist, i is the value type's zero value (0). The second value (ok) is a bool that is true if the key exists in the map, and false if not.
 
 // Get key
 func hdGet(w http.ResponseWriter, req *http.Request, key string) (val string, ok bool) {
@@ -44,19 +41,33 @@ func hdDel(w http.ResponseWriter, req *http.Request, key string) bool {
 
 	delete(DataBase, key)
 	log.Printf("\nDelete key: %s\n", key)
-	_, exist := DataBase[key] // check if key exists, if so its error
+	_, exist := DataBase[key] // if key exists its an error!
 	return !exist
 }
 
 // Append key to database with ttl
-func hdPost(w http.ResponseWriter, req *http.Request, key string, ttl int64) {
+// ttl here is the number of seconds to live since NOW..
+// ie. ttl=128 means two seconds of life to the key
+
+func hdPost(w http.ResponseWriter, req *http.Request, key string, ttl int) bool {
 
 	defer req.Body.Close()
 	data, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		panic(err)
 	}
-	log.Printf("IN:hdPost append data: %v\n", data)
-	DataBase[key] = &DBItem{ttl, TList, data}
 
+	_, err = base64.URLEncoding.Decode(data, data)
+	if err == nil {
+		log.Printf("IN:hdPost append data: %v\n", data)
+		var ttd int64 // def == 0
+		if ttl != 0 {
+			ttd = time.Now().Unix() + int64(ttl)
+		}
+		log.Printf("IN:hdPost ADD ttl==%d, ttd==%d", ttl, ttd)
+
+		DataBase[key] = &DBItem{ttd, TList, data}
+		return true
+	}
+	return false
 }

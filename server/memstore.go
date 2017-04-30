@@ -21,7 +21,7 @@ type DBItem struct {
 
 // Returns true if the item has expired
 func (it DBItem) Expired() bool {
-	if it.TTL == 0 {
+	if it.TTL == int64(0) {
 		return false
 	}
 	return time.Now().Unix() > it.TTL
@@ -41,16 +41,15 @@ var DataBase = make(map[string]*DBItem, 1<<16) // Allocate memory to 65536 items
 // Cleans database from the some random expired keys
 func CleanDB() {
 
-	//print("\rClean DB..")
-
 	// Loop over map and append keys to empty slice.
-	keys := []string{}
+	keys := []string{} // debug
 	var i int
 	for key, _ := range DataBase { // value skipped, order is random
 
 		if DataBase[key].Expired() {
+			fmt.Printf("\nAutoDel key: %s, with ttl==%d\n", key, DataBase[key].TTL)
 			delete(DataBase, key)
-			keys = append(keys, key) // here can be 'delete'
+			keys = append(keys, key) // debug only
 		}
 
 		if i > 3 { // 3 gives 5 keys [0..4] // must be 20-25
@@ -59,6 +58,7 @@ func CleanDB() {
 		i++
 	}
 
+	// this is debug only print
 	if len(keys) > 0 {
 		fmt.Printf("Keys deleted: %v\n", keys)
 	}

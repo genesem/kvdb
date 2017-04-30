@@ -1,14 +1,19 @@
+// Server of KVDB https://github.com/genesem/kvdb
+// part of KVDB database. copyright(C) GeneSemerenko
+
 package main
 
 import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
 
 // Operators mapped: GET SET REMOVE KEYS
+
 func handler(w http.ResponseWriter, r *http.Request) {
 
 	qpath, qkey := r.URL.Path[1:], r.URL.Query().Get("q")
@@ -29,16 +34,19 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		if ok := hdDel(w, r, qkey); !ok {
 			w.WriteHeader(http.StatusNotFound) // 404 if cant delete
 			fmt.Fprintf(w, "Can`t delete key %s", qkey)
-		} else {
-			fmt.Fprintf(w, "DELETED key==%s", qkey)
 		}
+		//else {fmt.Fprintf(w, "DELETED key==%s", qkey) }
 
 	case "POST": // add error check etc
-		ttl := time.Now().UnixNano()
-		hdPost(w, r, qkey, ttl) // process post
-		//w.WriteHeader(http.StatusCreated) // 201  or leave 200
+		var ttl int // 0
+		ttl, _ = strconv.Atoi(r.URL.Query().Get("t"))
+		if ok := hdPost(w, r, qkey, ttl); !ok { // process post
+			w.WriteHeader(http.StatusNotFound) // 404 cant add the key
+			fmt.Fprintf(w, "Can`t add key %s with ttl==%d", qkey, ttl)
+		}
+		//else {w.WriteHeader(http.StatusCreated)} // 201 commented means: 200
 
-	default: //head, put is also here
+	default: //head, put verbs is also here
 		w.WriteHeader(http.StatusNotImplemented) // 501
 		fmt.Fprintf(w, "unknown method: %s\n", r.Method)
 		return
@@ -47,17 +55,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("qpath==[%s], qkey==[%s]\n", qpath, qkey) //html.EscapeString()
 }
 
-// entry point for the server
+// entry point for server
 func main() {
-
-	work()
 
 	port, ok := os.LookupEnv("PORT")
 	if !ok {
 		port = "3000"
 	}
 
-	go func() { // watcher cleans database keys every 250 Milliseconds
+	go func() { // watcher cleans database keys every 500 Milliseconds
 		for {
 			select {
 			case <-time.After(500 * time.Millisecond): // for debug == 500ms

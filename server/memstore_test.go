@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"testing"
 	"time"
 )
 
@@ -12,7 +13,7 @@ const (
 	RUR
 )
 
-func work() {
+func TestWork(t *testing.T) {
 
 	str1 := "#1: Hello this is a string one..." // string 1
 	str2 := "#2: Hello this is a string two..." // string 2
@@ -79,9 +80,15 @@ func work() {
 
 	decode(&obj1x, DataBase["list1"].Val)
 	fmt.Printf("Decoded Result: %v\n", obj1x)
-	fmt.Println("US==", obj1x[USD]) // 'US'
+
+	if "US" != obj1x[USD] {
+		t.Error("decode  list1 error")
+	} else {
+		fmt.Println("US==", obj1x[USD]) // 'US'
+	}
 
 	decode(&obj2x, DataBase["list2"].Val)
+
 	fmt.Printf("Decoded Result obj2: %#v\n", obj2x)
 	fmt.Printf("Decoded Result obj2[0]: %#v\n", obj2x[0])
 

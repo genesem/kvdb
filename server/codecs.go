@@ -1,4 +1,4 @@
-// Codes: aka encode/decode to process structures to []byte in the both ways
+// Codes: encode/decode to process structures to []byte and back
 
 package main
 
