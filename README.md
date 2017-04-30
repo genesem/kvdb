@@ -4,9 +4,11 @@ nanoserv [![Build Status](https://travis-ci.org/genesem/nanoserv.svg?branch=mast
 KeyValue Nano Database written in Go (golang).
 
 
-#### Features:
+#### Storage types:
 
-* custom 404 error message.
+* Strings
+* Lists of Strings
+* Dictionaries of Strings
 
 
 #### Install:
