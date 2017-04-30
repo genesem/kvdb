@@ -11,9 +11,9 @@ KeyValue Nano Database written in Go (golang).
 
 #### Install:
 
-  `wget https://raw.githubusercontent.com/genesem/nanoserv/master/nanoserv.go`
+  `git clone https://github.com/genesem/kvdb`
 
-  `go build nanoserv.go && ./nanoserv`
+  `cd server && go build -o ../server`
 
 #### Usage:
 
