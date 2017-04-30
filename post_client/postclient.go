@@ -1,8 +1,8 @@
 package main
 
 import (
-	//	cd "clientcodecs"
 	"bytes"
+	//cd "clientcodecs"
 	"fmt"
 	cd "github.com/genesem/kvdb/clientcodecs"
 	"net/http"
@@ -31,23 +31,14 @@ func main() {
 		resp, _ := client.Do(r)
 	*/
 
-	resp, err := http.Post(fmt.Sprintf(baseurl, "key1", 0), "application/octet-stream", bytes.NewBuffer(data))
-	fmt.Printf("Resp==%v,  err==%v\n", resp.Status, err)
-	resp.Body.Close()
+	strkeys := [...]string{"key1", "key2", "key3", "key4", "key5", "key6", "key7"}
+	ttls := [...]int{0, 30, 60, 90, 120, 130, 180}
 
-	resp, err = http.Post(fmt.Sprintf(baseurl, "key2", 64), "application/octet-stream", bytes.NewBuffer(data))
-	fmt.Printf("Resp==%v,  err==%v\n", resp.Status, err)
-	resp.Body.Close()
+	for i, u := range strkeys {
 
-	resp, err = http.Post(fmt.Sprintf(baseurl, "key3", 90), "application/octet-stream", bytes.NewBuffer(data))
-	fmt.Printf("Resp==%v,  err==%v\n", resp.Status, err)
-	resp.Body.Close()
+		resp, err := http.Post(fmt.Sprintf(baseurl, u, ttls[i]), "application/octet-stream", bytes.NewBuffer(data))
+		fmt.Printf("Resp==%v,  err==%v\n", resp.Status, err)
+		resp.Body.Close()
+	}
 
-	resp, err = http.Post(fmt.Sprintf(baseurl, "key4", 120), "application/octet-stream", bytes.NewBuffer(data))
-	fmt.Printf("Resp==%v,  err==%v\n", resp.Status, err)
-	resp.Body.Close()
-
-	resp, err = http.Post(fmt.Sprintf(baseurl, "key5", 180), "application/octet-stream", bytes.NewBuffer(data))
-	fmt.Printf("Resp==%v,  err==%v\n", resp.Status, err)
-	resp.Body.Close()
 }
