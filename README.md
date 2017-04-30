@@ -12,7 +12,8 @@ KeyValue Nano Database written in Go (golang).
 #### Features:
 
 * Each key has TTL (time to live) is seconds and autodeleted when TTL got expired.
-
+* Low RAM footprint.
+* Fast work.
 
 #### Install:
 
