@@ -101,3 +101,4 @@ get_client.exe - запрашивает несколько ключей асин
 
 PS. what can be improved:
     multiuser: ie each user has own db space with non intersected namespaces.
+    sync lock @ post key.
