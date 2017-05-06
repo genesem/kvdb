@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -78,10 +79,19 @@ func hdGetSubk(w http.ResponseWriter, req *http.Request, key, subk string) (val 
 // Delete key
 func hdDel(w http.ResponseWriter, req *http.Request, key string) bool {
 
-	delete(DataBase, key)
-	log.Printf("\nDelete key: %s\n", key)
-	_, exist := DataBase[key] // if key exists its an error!
-	return !exist
+	//log.Printf("\nDelete got string keys: %s\n", key)
+	res := strings.Split(key, ",") // split keys by ,
+	for i := range res {
+		k := res[i] // better
+		delete(DataBase, k)
+		log.Printf("\nDelete key: %s\n", k)
+		if _, ok := DataBase[k]; ok == true { // if key exists its an error!
+			//log.Printf("\nDelete key TEST: %s, db: %v\n", k, DataBase[k])
+			return false
+		}
+	}
+
+	return true // all fine
 }
 
 // Append key to database with ttl

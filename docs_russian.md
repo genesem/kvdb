@@ -51,6 +51,13 @@
     DELETE /server?q=key например: `curl -X DELETE http://localhost:3000/?q=key1`
     успех == http код 200, ошибка 404.
 
+* Удалить несколько ключей `key1,key2,key3`:
+    DELETE /server?q=key например: `curl -X DELETE http://localhost:3000/?q=key1,key2,key3`
+    успех == http код 200, ошибка 404.
+  Про удаление ключа(ей): попытка удаления происходит в любом случае воврат 200 означает,
+    что ключ гаранитированно не существует после вызова этой операции.
+
+
 * Добавить ключ в базу данных:
     
     POST /server?q=key например: `curl -X POST -d '#DATA#' http://localhost:3000/?q=key1`

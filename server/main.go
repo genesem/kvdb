@@ -42,7 +42,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 		if ok := hdDel(w, r, qkey); !ok {
 			w.WriteHeader(http.StatusNotFound) // 404 if cant delete
-			fmt.Fprintf(w, "Can`t delete key %s", qkey)
+			fmt.Fprintf(w, "Can`t delete key(s) %s", qkey)
 		}
 		//else {fmt.Fprintf(w, "DELETED key==%s", qkey) }
 
@@ -55,7 +55,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		}
 		//else {w.WriteHeader(http.StatusCreated)} // 201 commented means: 200
 
-	default: //head, put verbs is also here
+	default: //head, put verbs are also here
 		w.WriteHeader(http.StatusNotImplemented) // 501
 		fmt.Fprintf(w, "unknown method: %s\n", r.Method)
 		return
