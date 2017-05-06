@@ -9,10 +9,28 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
 )
+
+// hdHead: return list of keys matched the pattern
+func hdHead(w http.ResponseWriter, req *http.Request, key string) (val string, ok bool) {
+
+	r, _ := regexp.Compile(key) // ie 'ke??' or 'k*'
+	var ret []string
+	for k, _ := range DataBase { // iterate over db
+		if r.MatchString(k) {
+			ret = append(ret, k)
+		}
+	}
+	//log.Println("result:", val)
+	if len(ret) > 0 {
+		return strings.Join(ret, ","), true
+	}
+	return "", false
+}
 
 // Get key
 func hdGet(w http.ResponseWriter, req *http.Request, key string) (val string, ok bool) {

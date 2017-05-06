@@ -1,9 +1,9 @@
 package main
 
 import (
-	//	cd "clientcodecs"
+	cd "clientcodecs"
 	"fmt"
-	cd "github.com/genesem/kvdb/clientcodecs"
+	//cd "github.com/genesem/kvdb/clientcodecs"
 	"io/ioutil"
 	"net/http"
 	"time"

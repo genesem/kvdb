@@ -55,7 +55,17 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		}
 		//else {w.WriteHeader(http.StatusCreated)} // 201 commented means: 200
 
-	default: //head, put verbs are also here
+	case "HEAD": // return list of keys matched the mask (regex)
+
+		val, ok := hdHead(w, r, qkey)
+		if !ok {
+			w.WriteHeader(http.StatusNotFound) // 404 ERROR CODE
+			fmt.Fprintf(w, "no keys found for the pattern: %s", qkey)
+		} else {
+			fmt.Fprintf(w, "%s", val)
+		}
+
+	default: //PUT verb are also here
 		w.WriteHeader(http.StatusNotImplemented) // 501
 		fmt.Fprintf(w, "unknown method: %s\n", r.Method)
 		return
