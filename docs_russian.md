@@ -54,8 +54,8 @@
 * Удалить несколько ключей `key1,key2,key3`:
     DELETE /server?q=key например: `curl -X DELETE http://localhost:3000/?q=key1,key2,key3`
     успех == http код 200, ошибка 404.
-  Про удаление ключа(ей): попытка удаления происходит в любом случае воврат 200 означает,
-    что ключ гаранитированно не существует после вызова этой операции.
+  Про удаление ключа(ей): попытка удаления происходит в любом случае возврат 200 означает,
+    что ключ гарантированно не существует после вызова этой операции.
 
 
 * Добавить ключ в базу данных:
@@ -93,8 +93,6 @@ get_client.exe - запрашивает несколько ключей асин
 
 PS. what can be improved:
     multiuser: ie each user has own db space with non intersected namespaces.
-    unix socket support. // ?
-    deleteKeys('key1','key2','key3' etc) 
 
     https://redis.io/commands/keys
         KEYS - list all keys by mask.
